@@ -1,20 +1,19 @@
 package lilac
 
 import (
-    "github.com/julienschmidt/httprouter"
-    "html/template"
+	"html/template"
+
+	"github.com/julienschmidt/httprouter"
 )
 
-
-
 type App struct {
-    *Router
-    router *httprouter.Router
-    Template *template.Template
+	*Router
+	router   *httprouter.Router
+	Template *template.Template
 }
 
 func New() *App {
-    app := new(App)
-    app.router = httprouter.New()
-    return app
+	app := new(App)
+	app.router = httprouter.New()
+	return app
 }
