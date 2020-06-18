@@ -7,9 +7,8 @@ import (
 )
 
 type Router struct {
-	prefix   string
-	Handlers []HandlerFunc
-	router   *httprouter.Router
+	prefix string
+	router *httprouter.Router
 }
 
 func (router *Router) Handle(method, p string, handlers []HandlerFunc) {
