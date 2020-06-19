@@ -20,12 +20,12 @@ type Context struct {
 	Resp     http.ResponseWriter
 	Req      *http.Request
 	Params   httprouter.Params
-	handlers []HandlerFunc
+	handlers HandlerFunc
 	kv       map[string]interface{}
 	error    ErrMsg
 }
 
-func (router *Router) NewContext(resp http.ResponseWriter, req *http.Request, params httprouter.Params, handlers []HandlerFunc) *Context {
+func (router *Router) NewContext(resp http.ResponseWriter, req *http.Request, params httprouter.Params, handlers HandlerFunc) *Context {
 	return &Context{
 		Req:      req,
 		Resp:     resp,
@@ -89,4 +89,8 @@ func (ctx *Context) String(code int, msg string) {
 	ctx.Resp.Header().Set(HeaderContentType, MIMEText)
 	ctx.Resp.WriteHeader(code)
 	ctx.Resp.Write([]byte(msg))
+}
+
+func (ctx *Context) Exec() {
+	ctx.handlers(ctx)
 }
