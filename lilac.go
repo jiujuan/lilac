@@ -9,19 +9,20 @@ import (
 
 type App struct {
 	*Router
-	//router   *httprouter.Router
+	router          *httprouter.Router
 	Template        *template.Template
 	notFoundHandler HandlerFunc
 }
 
 func New() *App {
 	app := new(App)
-	app.Router.router = httprouter.New()
+	app.Router = &Router{"", nil, app}
+	app.router = httprouter.New()
 	return app
 }
 
 func (app *App) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
-	app.Router.router.ServeHTTP(resp, req)
+	app.router.ServeHTTP(resp, req)
 }
 
 func (app *App) Run(addr string) {

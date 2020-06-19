@@ -9,12 +9,12 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-type HandlerFunc func(*Context)
-
 type ErrMsg struct {
 	code int
 	msg  interface{}
 }
+
+type HandlerFunc func(*Context)
 
 type Context struct {
 	Resp     http.ResponseWriter
@@ -83,4 +83,10 @@ func (ctx *Context) JSON(code int, val interface{}) {
 		ctx.Error(code, val)
 		http.Error(ctx.Resp, err.Error(), 500)
 	}
+}
+
+func (ctx *Context) String(code int, msg string) {
+	ctx.Resp.Header().Set(HeaderContentType, MIMEText)
+	ctx.Resp.WriteHeader(code)
+	ctx.Resp.Write([]byte(msg))
 }

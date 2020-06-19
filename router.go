@@ -7,12 +7,13 @@ import (
 )
 
 type Router struct {
-	prefix string
-	router *httprouter.Router
+	prefix   string
+	Handlers []HandlerFunc
+	app      *App
 }
 
 func (router *Router) Handle(method, p string, handlers []HandlerFunc) {
-	router.router.Handle(method, p, func(resp http.ResponseWriter, req *http.Request, params httprouter.Params) {
+	router.app.router.Handle(method, p, func(resp http.ResponseWriter, req *http.Request, params httprouter.Params) {
 		router.NewContext(resp, req, params, handlers)
 	})
 }
