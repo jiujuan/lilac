@@ -26,7 +26,7 @@ func helloHandler(ctx *lilac.Context) {
 func main() {
 	app := lilac.New()
 
-	app.GET("/", indexHandler)
-	app.POST("/hello/:name", helloHandler)
+	app.Router.GET("/", indexHandler)
+	app.Router.POST("/hello/:name", helloHandler)
 	app.Run(":8080")
 }
