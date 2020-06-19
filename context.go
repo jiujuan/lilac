@@ -10,8 +10,8 @@ import (
 )
 
 type ErrMsg struct {
-	code int
-	msg  interface{}
+	Code int         `json:"code"`
+	Msg  interface{} `json:"msg"`
 }
 
 type HandlerFunc func(*Context)
@@ -23,6 +23,7 @@ type Context struct {
 	handlers HandlerFunc
 	kv       map[string]interface{}
 	error    ErrMsg
+	Msg      ErrMsg
 }
 
 func (router *Router) NewContext(resp http.ResponseWriter, req *http.Request, params httprouter.Params, handlers HandlerFunc) *Context {
@@ -62,8 +63,8 @@ func (ctx *Context) Stop(code int) {
 
 func (ctx *Context) Error(code int, msg interface{}) {
 	ctx.error = ErrMsg{
-		code: code,
-		msg:  msg,
+		Code: code,
+		Msg:  msg,
 	}
 }
 
