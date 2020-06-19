@@ -9,6 +9,7 @@ import (
 
 type App struct {
 	*Router
+	*Group
 	router          *httprouter.Router
 	Template        *template.Template
 	notFoundHandler HandlerFunc
@@ -17,6 +18,7 @@ type App struct {
 func New() *App {
 	app := new(App)
 	app.Router = &Router{"", nil, app}
+	app.Group = &Group{Handlers: nil, prefix: "", app: app}
 	app.router = httprouter.New()
 	return app
 }

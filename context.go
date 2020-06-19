@@ -20,19 +20,20 @@ type Context struct {
 	Resp     http.ResponseWriter
 	Req      *http.Request
 	Params   httprouter.Params
-	handlers HandlerFunc
+	handlers []HandlerFunc
+	handler  HandlerFunc
 	kv       map[string]interface{}
 	error    ErrMsg
-	Msg      ErrMsg
+	pos      int8
 }
 
-func (router *Router) NewContext(resp http.ResponseWriter, req *http.Request, params httprouter.Params, handlers HandlerFunc) *Context {
+func (router *Router) NewContext(resp http.ResponseWriter, req *http.Request, params httprouter.Params, handler HandlerFunc) *Context {
 	return &Context{
-		Req:      req,
-		Resp:     resp,
-		Params:   params,
-		handlers: handlers,
-		kv:       make(map[string]interface{}, 0),
+		Req:     req,
+		Resp:    resp,
+		Params:  params,
+		handler: handler,
+		kv:      make(map[string]interface{}, 0),
 	}
 }
 
@@ -93,5 +94,5 @@ func (ctx *Context) String(code int, msg string) {
 }
 
 func (ctx *Context) Exec() {
-	ctx.handlers(ctx)
+	ctx.handler(ctx)
 }
